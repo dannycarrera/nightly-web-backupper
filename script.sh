@@ -1,0 +1,21 @@
+#!/bin/sh
+
+DATA_DIR="/var/lib/ghost/content"
+DROPBOX_BLOG_DIR="/var/lib/dropbox/${BLOG_NAME}/nightly"
+
+DATE=$(date +%Y-%m-%d"_"%H-%M-%S)
+
+mkdir -p $DROPBOX_BLOG_DIR
+
+NUM_BACKUPS=$(ls -1 ${DROPBOX_BLOG_DIR} | wc -l)
+
+if [ $NUM_BACKUPS -ge 3 ]; then
+    echo $NUM_BACKUPS backups found. Deleting all except the newest 2
+    (cd $DROPBOX_BLOG_DIR && ls -1tr | head -n -2 | xargs rm -f --)
+fi
+
+BACKUP_PATH="${DROPBOX_BLOG_DIR}/${BLOG_NAME}_backup_${DATE}.tar.gz"
+
+echo Saving Backup: $BACKUP_PATH
+
+tar -zcf $BACKUP_PATH -C $DATA_DIR .
