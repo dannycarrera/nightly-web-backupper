@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DATA_DIR="/var/lib/ghost/content"
-DROPBOX_BLOG_DIR="/var/lib/dropbox/${BLOG_NAME}/nightly"
+DROPBOX_BLOG_DIR="/var/lib/dropbox/websites/${BLOG_NAME}/nightly"
 
 DATE=$(date +%Y-%m-%d"_"%H-%M-%S)
 
