@@ -1,20 +1,18 @@
 #!/bin/sh
 
-DATA_DIR="/var/lib/ghost/content"
-DROPBOX_BLOG_DIR="/var/lib/dropbox/websites/${BLOG_NAME}/nightly"
+DATA_DIR="/var/lib/dropbox/live"
+DROPBOX_WEBSITE_DIR=" /var/lib/dropbox/backups"
 
 DATE=$(date +%Y-%m-%d"_"%H-%M-%S)
 
-mkdir -p $DROPBOX_BLOG_DIR
-
-NUM_BACKUPS=$(ls -1 ${DROPBOX_BLOG_DIR} | wc -l)
+NUM_BACKUPS=$(ls -1 ${DROPBOX_WEBSITE_DIR} | wc -l)
 
 if [ $NUM_BACKUPS -ge 3 ]; then
     echo $NUM_BACKUPS backups found. Deleting all except the newest 2
-    (cd $DROPBOX_BLOG_DIR && ls -1tr | head -n -2 | xargs rm -f --)
+    (cd $DROPBOX_WEBSITE_DIR && ls -1tr | head -n -2 | xargs rm -f --)
 fi
 
-BACKUP_PATH="${DROPBOX_BLOG_DIR}/${BLOG_NAME}_backup_${DATE}.tar.gz"
+BACKUP_PATH="${DROPBOX_WEBSITE_DIR}/${WEBSITE_NAME}_backup_${DATE}.tar.gz"
 
 echo Saving Backup: $BACKUP_PATH
 
